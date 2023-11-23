@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  servlet:
+    multipart:
+      max-request-size: -1
+      max-file-size: -1
+      file-size-threshold: -1
+      enabled: true
+  datasource:
+    username: ${DB_USER:root}
+    url: ${DB_CONNECTION:jdbc:mysql://localhost:33060/ciudadania?useMysqlMetadata=true&serverTimezone=America/Guayaquil&allowPublicKeyRetrieval=false}
+    password: ${DB_PWD:root}
+  application:
+    name: ciudadania
+
+logging.level:
+  org.hibernate.SQL: INFO
+  org.hibernate.type.descriptor.sql: INFO
+
+server:
+  port: '8081'
+
