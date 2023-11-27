@@ -20,41 +20,41 @@ data class EmployeeModel(
     @Column(name = "birthdate", nullable = false)
     var birthdate: Date? = null,
     @Column(name = "phone", length = 20)
-    var phone: Int? = null,
+    var phone: Int = 0,
     @Column(name = "email", length = 70)
-    var email: String? = null,
+    var email: String = "",
     @Column(name = "address", nullable = false, length = 300)
-    var address: String? = null,
+    var address: String = "",
     @Column(name = "blood_type", length = 20)
-    var bloodType: String? = null,
+    var bloodType: String = "",
     @Column(name = "photo", length = 100)
-    var photo: String? = null,
+    var photo: String = "",
     @Column(name = "supervisor", nullable = false, length = 11)
-    var supervisor: Int? = null,
+    var supervisor: Int = 0,
     @Column(name = "short_sleeve_blouse_or_shirt", length = 5)
-    var shortSleeveBlouseOrShirt: String? = null,
+    var shortSleeveBlouseOrShirt: String = "",
     @Column(name = "box_neck_polo", length = 5)
-    var boxNeckPolo: String? = null,
+    var boxNeckPolo: String = "",
     @Column(name = "pants", length = 5)
-    var pants: String? = null,
+    var pants: String = "",
     @Column(name = "cap", length = 5)
-    var cap: String? = null,
+    var cap: String = "",
     @Column(name = "long_sleeve_blouse_or_shirt", length = 5)
-    var longSleeveBlouseOrShirt: String? = null,
+    var longSleeveBlouseOrShirt: String = "",
     @Column(name = "reflective_Jacket", length = 5)
-    var reflectiveJacket: String? = null,
+    var reflectiveJacket: String = "",
     @Column(name = "high_neck_sweatshirt", length = 5)
-    var highNeckSweatshirt : String? = null,
+    var highNeckSweatshirt : String = "",
     @Column(name = "vest", length = 5)
-    var vest: String? = null,
+    var vest: String = "",
     @Column(name = "reflective_waterproof_poncho", length = 5)
-    var reflectiveWaterproofPoncho: String? = null,
+    var reflectiveWaterproofPoncho: String = "",
     @Column(name = "borceguies", length = 5)
-    var borceguies: String? = null,
+    var borceguies: String = "",
     @Column(name = "socks", length = 5)
-    var socks: String? = null,
+    var socks: String = "",
     @Column(name = "footwear", length = 5)
-    var footwear: String? = null,
+    var footwear: String = "",
     @OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
     var taskControlModelList: List<TaskControlModel> = emptyList()
 )

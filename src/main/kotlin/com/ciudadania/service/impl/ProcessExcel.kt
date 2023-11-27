@@ -6,8 +6,10 @@ import com.ciudadania.repository.IJpaPositionRepository
 import com.ciudadania.service.IControlTypeService
 import com.ciudadania.service.IProcessExcel
 import com.ciudadania.utils.Constants
+import org.apache.logging.log4j.util.Strings
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellType
+import org.apache.poi.ss.usermodel.DataFormatter
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import java.io.IOException
@@ -21,13 +23,17 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExc
 
     override fun readExcel(path: InputStream): Map<String, JvmType.Object> {
 
-        val positionList = excelToPositions(path)
+        //val positionList = excelToPositions(path)
 
-        positionList.forEach { println(it) }
+        val employeeList = excelToEmployees(path)
 
-        val result: Map<String, JvmType.Object> = emptyMap()
+        //positionList.forEach { println(it) }
 
-        return result
+        employeeList.forEach { println(it) }
+
+
+
+        return emptyMap()
     }
 
     private fun convertValue(value: Cell, type: CellType): Any {
@@ -119,10 +125,33 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExc
                     val currentCell = cellInRow.next()
 
                     when (cellIdx) {
-                        0 -> employeeModel.dni = currentCell.numericCellValue.toLong()
+                        0 -> {
+                            val formatter = DataFormatter();
+                            val cell: Cell = currentCell
+                            val aux = formatter.formatCellValue(cell)
+                            employeeModel.dni = aux.toString().toLong()
+                        }
                         1 -> employeeModel.code = currentCell.numericCellValue.toInt()
                         2 -> employeeModel.firstLastName = currentCell.stringCellValue
                         3 -> employeeModel.secondLastName = currentCell.stringCellValue
+                        4 -> employeeModel.names = currentCell.stringCellValue
+                        5 -> employeeModel.birthdate =
+                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.dateCellValue else null
+
+                        6 -> employeeModel.phone = currentCell?.numericCellValue?.toInt() ?: 0
+                        7 -> employeeModel.email =
+                            if (Strings.isNotEmpty(formatCellValue(currentCell))) formatCellValue(currentCell) else Strings.EMPTY
+
+                        8 -> employeeModel.address =
+                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.stringCellValue else Strings.EMPTY
+
+                        9 -> employeeModel.bloodType =
+                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.stringCellValue else Strings.EMPTY
+
+                        12 -> employeeModel.photo =
+                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString()) ) currentCell.stringCellValue else Strings.EMPTY
+
+                        13 -> employeeModel.supervisor = currentCell?.numericCellValue?.toInt() ?: 0
 
                     }
                     cellIdx++
@@ -138,6 +167,10 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExc
         } catch (e: IOException) {
             throw RuntimeException("fail to parse Excel file: " + e.message);
         }
+    }
+
+    private fun formatCellValue(value: Cell): String {
+        return DataFormatter().formatCellValue(value)
     }
 
 }

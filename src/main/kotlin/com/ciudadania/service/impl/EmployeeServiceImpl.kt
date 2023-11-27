@@ -39,11 +39,11 @@ class EmployeeServiceImpl(
             exists.get().secondLastName = employeeRequest.secondLastName
             exists.get().names = employeeRequest.names
             exists.get().birthdate = employeeRequest.birthdate
-            exists.get().phone = employeeRequest.phone
-            exists.get().email = employeeRequest.email
+            exists.get().phone = employeeRequest.phone!!
+            exists.get().email = employeeRequest.email!!
             exists.get().address = employeeRequest.address
-            exists.get().bloodType = employeeRequest.bloodType
-            exists.get().photo = employeeRequest.photo
+            exists.get().bloodType = employeeRequest.bloodType!!
+            exists.get().photo = employeeRequest.photo!!
             exists.get().supervisor = employeeRequest.supervisor
             exists.get().shortSleeveBlouseOrShirt = employeeRequest.shortSleeveBlouseOrShirt
             exists.get().boxNeckPolo = employeeRequest.boxNeckPolo
