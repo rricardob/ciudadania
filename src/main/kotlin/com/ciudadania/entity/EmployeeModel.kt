@@ -9,7 +9,7 @@ data class EmployeeModel(
     @Id
     @Column(name = "dni", nullable = false, length = 11)
     var dni: Long = 0L,
-    @Column(name = "code", nullable = false, unique = true, length = 10)
+    @Column(name = "code", length = 10)
     var code: Int = 0,
     @Column(name = "first_last_name", nullable = false, length = 100)
     var firstLastName: String ="",
@@ -17,10 +17,10 @@ data class EmployeeModel(
     var secondLastName: String="",
     @Column(name = "names", nullable = false, length = 100)
     var names: String="",
-    @Column(name = "birthdate", nullable = false)
+    @Column(name = "birthdate")
     var birthdate: Date? = null,
     @Column(name = "phone", length = 20)
-    var phone: Int = 0,
+    var phone: String = "",
     @Column(name = "email", length = 70)
     var email: String = "",
     @Column(name = "address", nullable = false, length = 300)
@@ -55,6 +55,8 @@ data class EmployeeModel(
     var socks: String = "",
     @Column(name = "footwear", length = 5)
     var footwear: String = "",
+    @Column(name = "year", length = 4)
+    var year: Int? = null,
     @OneToMany(mappedBy = "employeeModel", fetch = FetchType.LAZY)
     var taskControlModelList: List<TaskControlModel> = emptyList()
 )

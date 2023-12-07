@@ -2,8 +2,9 @@ package com.ciudadania.service.impl
 
 import com.ciudadania.entity.EmployeeModel
 import com.ciudadania.entity.PositionModel
+import com.ciudadania.repository.IJpaControlTypeRepository
+import com.ciudadania.repository.IJpaEmployeeRepository
 import com.ciudadania.repository.IJpaPositionRepository
-import com.ciudadania.service.IControlTypeService
 import com.ciudadania.service.IProcessExcel
 import com.ciudadania.utils.Constants
 import org.apache.logging.log4j.util.Strings
@@ -17,21 +18,19 @@ import java.io.InputStream
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @Service
-class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExcel {
-
-    lateinit var controlTypeRepository: IControlTypeService
+class ProcessExcel(var positionRepository: IJpaPositionRepository,
+                   var employeeRepository: IJpaEmployeeRepository,
+                   var controlTypeRepository: IJpaControlTypeRepository
+    ) : IProcessExcel {
 
     override fun readExcel(path: InputStream): Map<String, JvmType.Object> {
 
-        //val positionList = excelToPositions(path)
+        //load positions
+        val positionList = excelToPositions(path)
+       positionRepository.saveAll(positionList)
 
-        val employeeList = excelToEmployees(path)
-
-        //positionList.forEach { println(it) }
-
-        employeeList.forEach { println(it) }
-
-
+        //val employeeList = excelToEmployees(path)
+        //employeeRepository.saveAll(employeeList)
 
         return emptyMap()
     }
@@ -138,7 +137,11 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExc
                         5 -> employeeModel.birthdate =
                             if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.dateCellValue else null
 
-                        6 -> employeeModel.phone = currentCell?.numericCellValue?.toInt() ?: 0
+                        6 -> {
+                            println(currentCell)
+                            val aux = formatCellValue(currentCell)
+                            employeeModel.phone = if(Strings.isNotEmpty(aux)) aux else ""
+                        } //currentCell?.numericCellValue?.toInt() ?: 0
                         7 -> employeeModel.email =
                             if (Strings.isNotEmpty(formatCellValue(currentCell))) formatCellValue(currentCell) else Strings.EMPTY
 
@@ -147,11 +150,23 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository) : IProcessExc
 
                         9 -> employeeModel.bloodType =
                             if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.stringCellValue else Strings.EMPTY
-
+                        10 -> employeeModel.year = currentCell?.numericCellValue?.toInt()
                         12 -> employeeModel.photo =
                             if (null != currentCell && Strings.isNotEmpty(currentCell.toString()) ) currentCell.stringCellValue else Strings.EMPTY
 
                         13 -> employeeModel.supervisor = currentCell?.numericCellValue?.toInt() ?: 0
+                        14 -> employeeModel.shortSleeveBlouseOrShirt = formatCellValue(currentCell)
+                        15 -> employeeModel.boxNeckPolo = formatCellValue(currentCell)
+                        16 -> employeeModel.pants = formatCellValue(currentCell)
+                        17 -> employeeModel.cap = formatCellValue(currentCell)
+                        18 -> employeeModel.longSleeveBlouseOrShirt = formatCellValue(currentCell)
+                        19 -> employeeModel.reflectiveJacket = formatCellValue(currentCell)
+                        20 -> employeeModel.highNeckSweatshirt = formatCellValue(currentCell)
+                        21 -> employeeModel.vest = formatCellValue(currentCell)
+                        22 -> employeeModel.reflectiveWaterproofPoncho = formatCellValue(currentCell)
+                        23 -> employeeModel.borceguies = formatCellValue(currentCell)
+                        24 -> employeeModel.socks = formatCellValue(currentCell)
+                        25 -> employeeModel.footwear = formatCellValue(currentCell)
 
                     }
                     cellIdx++

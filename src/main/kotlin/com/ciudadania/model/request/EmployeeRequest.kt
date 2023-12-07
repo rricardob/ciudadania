@@ -9,7 +9,7 @@ data class EmployeeRequest(
     val secondLastName: String,
     val names: String,
     val birthdate: Date,
-    val phone: Int?,
+    val phone: String?,
     val email: String?,
     val address: String,
     val bloodType: String?,

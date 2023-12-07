@@ -14,8 +14,9 @@ class EmployeeServiceImpl(
     val employeeMapper: EmployeeMapper): IEmployeeService {
 
     override fun findByDni(dni: Int): EmployeeResponse {
-        val obj = employeeRepository.findByDni(dni)
-        return employeeMapper.asResponse(obj)
+        val obj = employeeRepository.findByDni(dni.toLong())
+        if (obj.isEmpty) throw NotFoundException("Employee not found")
+        return employeeMapper.asResponse(obj.get())
     }
 
     override fun create(employeeRequest: EmployeeRequest): Long {
