@@ -8,22 +8,22 @@ import java.time.LocalDate
 data class TaskControlModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    val id: Long = 0L,
     @Column(name = "employee_dni", nullable = false, length = 10)
-    var employeeDni: Long,
+    var employeeDni: Long = 0L,
     @Column(name = "control_date", nullable = false)
-    var controlDate: LocalDate,
+    var controlDate: LocalDate? = null,
     @Column(name = "control_type_id", nullable = false)
-    var controlTypeId: Long,
+    var controlTypeId: Long = 0L,
     @Column(name = "position_id", nullable = false)
-    var positionId: Long,
+    var positionId: Long = 0L,
     @ManyToOne
     @JoinColumn(name = "employee_dni", insertable = false, updatable = false)
-    var employeeModel: EmployeeModel,
+    var employeeModel: EmployeeModel? = null,
     @ManyToOne
     @JoinColumn(name = "control_type_id", insertable = false, updatable = false)
-    var controlTypeModel: ControlTypeModel?,
+    var controlTypeModel: ControlTypeModel? = null,
     @ManyToOne
     @JoinColumn(name = "position_id", insertable = false, updatable = false)
-    var positionModel: PositionModel
+    var positionModel: PositionModel? = null
 )

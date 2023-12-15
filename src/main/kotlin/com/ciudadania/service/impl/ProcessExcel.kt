@@ -2,6 +2,7 @@ package com.ciudadania.service.impl
 
 import com.ciudadania.entity.EmployeeModel
 import com.ciudadania.entity.PositionModel
+import com.ciudadania.entity.TaskControlModel
 import com.ciudadania.repository.IJpaControlTypeRepository
 import com.ciudadania.repository.IJpaEmployeeRepository
 import com.ciudadania.repository.IJpaPositionRepository
@@ -15,20 +16,25 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.springframework.stereotype.Service
 import java.io.IOException
 import java.io.InputStream
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 @Service
-class ProcessExcel(var positionRepository: IJpaPositionRepository,
-                   var employeeRepository: IJpaEmployeeRepository,
-                   var controlTypeRepository: IJpaControlTypeRepository
-    ) : IProcessExcel {
+class ProcessExcel(
+    var positionRepository: IJpaPositionRepository,
+    var employeeRepository: IJpaEmployeeRepository,
+    var controlTypeRepository: IJpaControlTypeRepository
+) : IProcessExcel {
 
     override fun readExcel(path: InputStream): Map<String, JvmType.Object> {
 
         //load positions
-        val positionList = excelToPositions(path)
-       positionRepository.saveAll(positionList)
+        //val positionList = excelToPositions(path)
+        //positionRepository.saveAll(positionList)
 
+        //load employees
         //val employeeList = excelToEmployees(path)
         //employeeRepository.saveAll(employeeList)
 
@@ -130,6 +136,7 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository,
                             val aux = formatter.formatCellValue(cell)
                             employeeModel.dni = aux.toString().toLong()
                         }
+
                         1 -> employeeModel.code = currentCell.numericCellValue.toInt()
                         2 -> employeeModel.firstLastName = currentCell.stringCellValue
                         3 -> employeeModel.secondLastName = currentCell.stringCellValue
@@ -140,7 +147,7 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository,
                         6 -> {
                             println(currentCell)
                             val aux = formatCellValue(currentCell)
-                            employeeModel.phone = if(Strings.isNotEmpty(aux)) aux else ""
+                            employeeModel.phone = if (Strings.isNotEmpty(aux)) aux else ""
                         } //currentCell?.numericCellValue?.toInt() ?: 0
                         7 -> employeeModel.email =
                             if (Strings.isNotEmpty(formatCellValue(currentCell))) formatCellValue(currentCell) else Strings.EMPTY
@@ -150,9 +157,10 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository,
 
                         9 -> employeeModel.bloodType =
                             if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.stringCellValue else Strings.EMPTY
+
                         10 -> employeeModel.year = currentCell?.numericCellValue?.toInt()
                         12 -> employeeModel.photo =
-                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString()) ) currentCell.stringCellValue else Strings.EMPTY
+                            if (null != currentCell && Strings.isNotEmpty(currentCell.toString())) currentCell.stringCellValue else Strings.EMPTY
 
                         13 -> employeeModel.supervisor = currentCell?.numericCellValue?.toInt() ?: 0
                         14 -> employeeModel.shortSleeveBlouseOrShirt = formatCellValue(currentCell)
@@ -184,8 +192,62 @@ class ProcessExcel(var positionRepository: IJpaPositionRepository,
         }
     }
 
+    private fun excelToTaskControl(path: InputStream): List<TaskControlModel>{
+        try {
+            val workbook = XSSFWorkbook(path)
+            val sheet = workbook.getSheet(Constants.POSITION)
+            val rows = sheet.iterator()
+
+            val taskControl: MutableList<TaskControlModel> = mutableListOf()
+
+            var rowNumber = 0
+            while (rows.hasNext()) {
+                val currentRow = rows.next()
+
+                // skip header
+                if (rowNumber == 0) {
+                    rowNumber++;
+                    continue;
+                }
+
+                val cellInRow = currentRow.iterator()
+
+                val taskControlModel = TaskControlModel()
+
+                var cellIdx = 0
+
+                while (cellInRow.hasNext()) {
+                    val currentCell = cellInRow.next()
+
+                    when (cellIdx) {
+                        0 -> taskControlModel.employeeDni = currentCell.numericCellValue.toLong()
+                        1 -> {
+                            println(stringToLocalDate(currentCell.stringCellValue))
+                            taskControlModel.controlDate = stringToLocalDate(currentCell.stringCellValue)
+                        }
+                    }
+                    cellIdx++
+                }
+
+                taskControl.add(taskControlModel)
+
+            }
+
+            workbook.close()
+            return taskControl
+
+        } catch (e: IOException) {
+            throw RuntimeException("fail to parse Excel file: " + e.message);
+        }
+    }
+
     private fun formatCellValue(value: Cell): String {
         return DataFormatter().formatCellValue(value)
+    }
+
+    private fun stringToLocalDate(date: String): LocalDate {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH)
+        return LocalDate.parse(date, formatter)
     }
 
 }
