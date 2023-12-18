@@ -12,7 +12,7 @@ data class TaskControlResponse(
     companion object {
         fun from(taskControlModel: TaskControlModel, controlType: ControlTypeResponse, position: String) = TaskControlResponse(
             taskControlModel.id,
-            taskControlModel.controlDate,
+            taskControlModel.controlDate!!,
             controlType,
             position
         )

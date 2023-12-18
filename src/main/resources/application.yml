@@ -22,6 +22,4 @@ logging.level:
   org.hibernate.SQL: INFO
   org.hibernate.type.descriptor.sql: INFO
 
-server:
-  port: '8081'
 
