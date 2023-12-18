@@ -12,9 +12,9 @@ spring:
       file-size-threshold: -1
       enabled: true
   datasource:
-    username: w661xxiflr7wjjqn
-    url: jdbc:mysql://jbb8y3dri1ywovy2.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rgp2dao17azy0xp4
-    password: r0il3fszvv1n8l5c
+    url: jdbc:mysql://monorail.proxy.rlwy.net:55053/railway #jdbc:mysql://jbb8y3dri1ywovy2.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/rgp2dao17azy0xp4 #jdbc:mysql://monorail.proxy.rlwy.net:55053/railway
+    username: root
+    password: 4DDegac1e4EHeHAFEcaDfA2GhhAcfCgd
   application:
     name: ciudadania
 
