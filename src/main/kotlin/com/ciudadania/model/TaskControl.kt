@@ -14,7 +14,7 @@ data class TaskControl(
         fun from(taskControlModel: TaskControlModel) = TaskControl (
             taskControlModel.id,
             taskControlModel.employeeDni,
-            taskControlModel.controlDate,
+            taskControlModel.controlDate!!,
             taskControlModel.controlTypeId,
             taskControlModel.positionId.toInt()
         )
