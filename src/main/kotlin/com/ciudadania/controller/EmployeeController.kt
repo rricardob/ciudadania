@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/employee")
 class EmployeeController(val employeeService: IEmployeeService) {
@@ -24,8 +25,9 @@ class EmployeeController(val employeeService: IEmployeeService) {
     }
 
     @PutMapping("/update-employee/{id}")
-    fun updateEmployee(@PathVariable("id") id: Long,
-                   @RequestBody employeeRequest: EmployeeRequest
+    fun updateEmployee(
+        @PathVariable("id") id: Long,
+        @RequestBody employeeRequest: EmployeeRequest
     ): ResponseEntity<EmployeeResponse> {
         return ResponseEntity.ok().body(employeeService.update(id, employeeRequest))
     }

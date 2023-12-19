@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/user")
 class UserController(val userService: IUserService) {
