@@ -45,7 +45,7 @@ class EmployeeMapper {
             firstLastName = entity.firstLastName,
             secondLastName = entity.secondLastName,
             names = entity.names,
-            birthdate = entity.birthdate!!,
+            birthdate = entity.birthdate,
             phone = entity.phone,
             email = entity.email,
             address = entity.address,

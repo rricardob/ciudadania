@@ -8,7 +8,7 @@ data class EmployeeResponse(
     val firstLastName: String,
     val secondLastName: String,
     val names: String,
-    val birthdate: Date,
+    val birthdate: Date? = null,
     val phone: String?,
     val email: String?,
     val address: String,
