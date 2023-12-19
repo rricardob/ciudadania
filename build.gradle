@@ -38,7 +38,14 @@ dependencies {
     implementation 'org.apache.poi:poi:5.2.4'
     implementation 'org.apache.poi:poi-ooxml:5.2.4'
     implementation('org.springframework.boot:spring-boot-starter-validation:3.0.4')
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    //implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    //implementation("io.springfox:springfox-swagger2:3.0.0")
+    //implementation('org.springdoc:springdoc-openapi-ui:1.5.4')
+    //implementation('org.springdoc:springdoc-openapi-data-rest:1.5.4')
+    //implementation('org.springdoc:springdoc-openapi-kotlin:1.5.4')
+    //implementation 'io.springfox:springfox-swagger2:3.0.0'
+    //implementation 'io.springfox:springfox-swagger-ui:3.0.0'
     //implementation 'io.jkratz.springmediatr:spring-mediatr:1.1-RELEASE'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
