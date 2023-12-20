@@ -10,8 +10,8 @@ class TaskControlServiceImpl(
     val jpaTaskControlRepository: IJpaTaskControlRepository
 ): ITaskControlService {
 
-    override fun getTaskControlListByDni(dni: Int, year: Int, month: Int, controlType: Int): List<TaskControl> {
+    override fun getTaskControlListByDni(dni: Int, year: Int): List<TaskControl> {
         val x =  jpaTaskControlRepository.getTaskControlListByDni(dni)
-        return  x.map { TaskControl.from(it) }
+        return  x.filter { it.controlDate?.year == year}.map { TaskControl.from(it) }
     }
 }

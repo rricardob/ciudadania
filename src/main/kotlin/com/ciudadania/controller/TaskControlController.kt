@@ -28,11 +28,9 @@ class TaskControlController(
     )
     fun search(
         @RequestParam("dni") dni: Int,
-        @RequestParam(name = "year", required = false, defaultValue = "-1") year: Int,
-        @RequestParam(name = "month", required = false, defaultValue = "-1") month: Int,
-        @RequestParam(name = "type-control", required = false, defaultValue = "-1") typeControl: Int
+        @RequestParam(name = "year", required = false, defaultValue = "-1") year: Int
     ): ResponseEntity<TaskControlForEmployeeResponse> {
-        val result = taskControlService.getTaskControlListByDni(dni, year, month, typeControl)
+        val result = taskControlService.getTaskControlListByDni(dni, year)
         val employee = employeeService.findByDni(dni)
         val supervisor = employee.supervisor?.let { employeeService.findByDni(it.toInt()) }
         if (supervisor != null){

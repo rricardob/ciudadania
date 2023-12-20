@@ -4,5 +4,5 @@ import com.ciudadania.model.TaskControl
 
 interface ITaskControlService {
 
-    fun getTaskControlListByDni(dni: Int, year: Int, month: Int, controlType: Int): List<TaskControl>
+    fun getTaskControlListByDni(dni: Int, year: Int): List<TaskControl>
 }
