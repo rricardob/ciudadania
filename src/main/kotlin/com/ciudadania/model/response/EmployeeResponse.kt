@@ -14,7 +14,7 @@ data class EmployeeResponse(
     val address: String,
     val bloodType: String?,
     val photo: String?,
-    val supervisor: Int,
+    var supervisor: String?,
     val shortSleeveBlouseOrShirt: String,
     val boxNeckPolo: String,
     val pants: String,

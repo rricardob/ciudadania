@@ -14,6 +14,12 @@ import java.net.URI
 @RequestMapping("/api/employee")
 class EmployeeController(val employeeService: IEmployeeService) {
 
+    /*@OpenAPIDefinition(servers = {
+        Server(
+            url = "/",
+            description = "any description of Server URL"
+        ), Server(url = "/myapp", description = "any description of your app")
+    })*/
     @GetMapping("/list-employee")
     fun getAllEmployee(): ResponseEntity<List<EmployeeResponse>> {
         return ResponseEntity.ok().body(employeeService.findAll())
@@ -43,7 +49,7 @@ class EmployeeController(val employeeService: IEmployeeService) {
     }
 
     @DeleteMapping("delete-user/{id}")
-    fun deleteById(@PathVariable("id") id: Long): ResponseEntity<Void> {
+    fun deleteById(@PathVariable("id") id: Long): ResponseEntity<Unit> {
         employeeService.delete(id)
         return ResponseEntity.noContent().build();
     }

@@ -33,6 +33,11 @@ class TaskControlController(
     ): ResponseEntity<TaskControlForEmployeeResponse> {
         val result = taskControlService.getTaskControlListByDni(dni, year, month, typeControl)
         val employee = employeeService.findByDni(dni)
+        val supervisor = employee.supervisor?.let { employeeService.findByDni(it.toInt()) }
+        if (supervisor != null){
+            employee.supervisor = supervisor.names +" "+ supervisor.firstLastName +" "+ supervisor.secondLastName
+        }
+
 
         val x = result.map {
             TaskControlResponse(

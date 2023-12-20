@@ -51,7 +51,7 @@ class EmployeeMapper {
             address = entity.address,
             bloodType = entity.bloodType,
             photo = entity.photo,
-            supervisor = entity.supervisor,
+            supervisor = entity.supervisor.toString(),
             shortSleeveBlouseOrShirt = entity.shortSleeveBlouseOrShirt,
             boxNeckPolo = entity.boxNeckPolo,
             pants = entity.pants,
