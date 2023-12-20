@@ -6,6 +6,7 @@ import com.ciudadania.service.IControlTypeService
 import com.ciudadania.service.IEmployeeService
 import com.ciudadania.service.IPositionService
 import com.ciudadania.service.ITaskControlService
+import com.ciudadania.utils.Constants
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
@@ -37,7 +38,9 @@ class TaskControlController(
         if (supervisor != null){
             employee.supervisor = supervisor.names +" "+ supervisor.firstLastName +" "+ supervisor.secondLastName
         }
-
+        if (employee.photo != null && employee.photo != ""){
+            employee.photo = Constants.URL_CLOUDINARY+employee.photo
+        }
 
         val x = result.map {
             TaskControlResponse(

@@ -13,7 +13,7 @@ data class EmployeeResponse(
     val email: String?,
     val address: String,
     val bloodType: String?,
-    val photo: String?,
+    var photo: String?,
     var supervisor: String?,
     val shortSleeveBlouseOrShirt: String,
     val boxNeckPolo: String,
