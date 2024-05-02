@@ -8,7 +8,7 @@ import java.time.LocalDate
 data class TaskControlModel(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L,
+    var id: Long = 0L,
     @Column(name = "employee_dni", nullable = false, length = 10)
     var employeeDni: Long = 0L,
     @Column(name = "control_date", nullable = false)
